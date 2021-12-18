@@ -8,11 +8,9 @@ import internal.entities.commits_entities.CommitInfo;
 import internal.entities.jira_entities.Issue;
 import internal.entities.jira_entities.JIRAContent;
 import internal.utils.CommentTokenizer;
-import scala.Tuple2;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
