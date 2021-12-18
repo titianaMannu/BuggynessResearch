@@ -166,7 +166,6 @@ public class VersionInfo {
 	}
 
 	public void populateFilesSize() throws InterruptedException {
-		int count = 0;
 		int tokenIndex;
 		for (Map.Entry<String, FileInfo> entry : filesMap.entrySet()) {
 			tokenIndex = JSONConfig.getPseudoRandomIndex();
