@@ -2,15 +2,18 @@ package internal.entities;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import internal.data_scraping.CommitsInformation;
+import internal.entities.commits_entities.CommitInfo;
 import internal.entities.commits_entities.SelfCommit;
 import internal.entities.jira_entities.Tag;
 import internal.utils.DownloaderAgent;
@@ -110,13 +113,14 @@ public class VersionInfo {
 		this.prevTag = prevTag;
 	}
 
-	/*public void retrieveCommits() throws InterruptedException {
+	public void getCommitsUnderRelease() throws InterruptedException, IOException {
 		CommitInfo[] commitInfos;
 		// do this in async task
 		if (tag != null) {
 			int tokenIndex = JSONConfig.getPseudoRandomIndex();
 			CommitsInformation info = CommitsInformation.getInstance();
 			if (prevTag == null) {
+				//first release
 				commitInfos = info.retrieveCommits("&sha=" + tag.getCommit().getSha());
 			} else {
 				commitInfos = info.compare(prevTag.getName(), tag.getName(), tokenIndex);
@@ -126,7 +130,7 @@ public class VersionInfo {
 			this.commits = info.getCommitsBody(Arrays.asList(commitInfos));
 		}
 	}
-*/
+
 	private void retrieveFiles() throws JSONException, IOException {
 		int tokenIndex = JSONConfig.getPseudoRandomIndex();
 		String jsonContent = DownloaderAgent.readJsonFromGitHub(this.tag.getCommit().getUrl(), tokenIndex, "cache/tag/" + this.tag.getCommit().getSha() + "/", "tagBaseCommit-" + this.tag.getCommit().getSha());
@@ -161,7 +165,7 @@ public class VersionInfo {
 
 	}
 
-	/*public void popolateFilesSize() throws InterruptedException {
+	public void populateFilesSize() throws InterruptedException {
 		int count = 0;
 		int tokenIndex;
 		for (Map.Entry<String, FileInfo> entry : filesMap.entrySet()) {
@@ -170,15 +174,8 @@ public class VersionInfo {
 				// we are not interested in files without changes in this release
 				continue;
 			}
-
-			count++;
-			if (count > 500) {
-				count = 0;
-				tokenIndex = JSONConfig.getPseudoRandomIndex();
-			}
-
 			final int currTokenIndex = tokenIndex;
-			entry.getValue().populateFileSize(currTokenIndex);
+			entry.getValue().populateFileSize(currTokenIndex, this.tag.getCommit().getSha());
 		}
 
 		eService.shutdown();
@@ -187,5 +184,5 @@ public class VersionInfo {
 			LOGGER.log(Level.WARNING, "timeout occurred, some pages could be lost\n");
 		}
 	}
-*/
+
 }

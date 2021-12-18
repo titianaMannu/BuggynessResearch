@@ -2,6 +2,7 @@ package internal.data_scraping;
 
 import com.google.gson.Gson;
 import internal.entities.commits_entities.CommitInfo;
+import internal.entities.commits_entities.Compare;
 import internal.entities.commits_entities.SelfCommit;
 import internal.utils.DownloaderAgent;
 import internal.utils.JSONConfig;
@@ -223,6 +224,21 @@ public class CommitsInformation {
                 return 0;
             }
         });
+    }
+
+    public CommitInfo[] compare(String prevRev, String currRev, int tokenIndex) throws IOException {
+        String url = JSONConfig.getRepository() + JSONConfig.getProjectName() + "/compare/" + prevRev + "..." + currRev;
+        //get all commit for the current release (after the previous one)
+        String json = DownloaderAgent.readJsonFromGitHub(url, tokenIndex, "cache/compare/", "compare-" + prevRev + "-" + currRev);
+        Gson gson = new Gson();
+        Compare compare = gson.fromJson(json, Compare.class);
+        if (!compare.getCommits().contains(compare.getBaseCommit())) {
+            //include base commit
+            compare.getCommits().add(compare.getBaseCommit());
+        }
+
+        CommitInfo[] commitInfos = new CommitInfo[compare.getCommits().size()];
+        return compare.getCommits().toArray(commitInfos);
     }
 
 }

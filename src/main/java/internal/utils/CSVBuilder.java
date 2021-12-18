@@ -64,7 +64,7 @@ public class CSVBuilder {
 					}
 					String formatted = String.format("%d,release-%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%b", i,
 							v.getName(), entry.getKey(), file.getSize(), file.getlOCTouched(), file.getRevisionNum(),
-							file.getAuthorNum(), file.getChurn(), file.getAvgCurn(), file.getMaxChurn(),
+							file.getAuthorNum(), file.getChurn(), file.getAvgChurn(), file.getMaxChurn(),
 							file.getChangeSetSizeSum(), file.getMaxChSetSize(), file.getAvgChSetSize(), file.getAge(),
 							file.isDefective());
 					bw.write(formatted);

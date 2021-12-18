@@ -54,10 +54,10 @@ public class File implements Serializable {
 		super();
 	}
 
-	public int retrieveChangesLOCView() throws IOException {
-		int commentedLines = 0;
-		int deletedC = 0;
-		int addedC = 0;
+	public void retrieveChangesLOCView() throws IOException {
+
+		int deletedC;
+		int addedC;
 
 		String addedLines = "";
 		String deletedLines = "";
@@ -81,7 +81,6 @@ public class File implements Serializable {
 		decrementDeletions(deletedC);
 		decrementChanges(addedC + deletedC);
 
-		return commentedLines;
 	}
 
 	public String getPreviousFilename() {

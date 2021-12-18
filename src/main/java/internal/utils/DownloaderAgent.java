@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,8 +29,13 @@ public class DownloaderAgent {
         return null;
     }
 
+    private static String addProjectToCachePath(String path){
+        path = JSONConfig.getProjectName().toLowerCase(Locale.ROOT) + "-" + path;
+        return path;
+    }
     public static String readJsonFromGitHub(String page, int tokenIndex, String cachePath, String filename) throws IOException {
-        if (! Files.exists(Paths.get(cachePath))) {
+        cachePath = addProjectToCachePath(cachePath);
+        if (!Files.exists(Paths.get(cachePath))) {
             //create new directory to save cached data
             Files.createDirectories(Path.of(cachePath));
         }
@@ -86,12 +92,13 @@ public class DownloaderAgent {
     }
 
 
-    public static String readJsonFromJira(String url, String cachePath, String filename) throws IOException {
-        if (! Files.exists(Paths.get(cachePath))) {
+    public static String readJsonFromJira(String url, String path, String filename) throws IOException {
+        path = JSONConfig.getProjectName().toLowerCase(Locale.ROOT) + "-" + path;
+        if (!Files.exists(Paths.get(path))) {
             //create new directory to save cached data
-            Files.createDirectories(Path.of(cachePath));
+            Files.createDirectories(Path.of(path));
         }
-        String res = getFromLocal(cachePath + URLEncoder.encode(filename, StandardCharsets.UTF_8));
+        String res = getFromLocal(path + URLEncoder.encode(filename, StandardCharsets.UTF_8));
         if (res != null) {
             return res;
         }
@@ -108,7 +115,7 @@ public class DownloaderAgent {
         }
 
         if (!builder.toString().equals("[]\n")) {
-            PrintWriter out = new PrintWriter(cachePath + URLEncoder.encode(filename, StandardCharsets.UTF_8));
+            PrintWriter out = new PrintWriter(path + URLEncoder.encode(filename, StandardCharsets.UTF_8));
             out.println(builder);
             out.close();
         }

@@ -1,16 +1,20 @@
 package internal.entities;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import internal.entities.commits_entities.Committer;
+import internal.utils.CommentTokenizer;
+import internal.utils.DownloaderAgent;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FileInfo {
 
@@ -35,27 +39,27 @@ public class FileInfo {
 
 	private long churn; // sum_over_Rev(addedLOC - deletedLOC)
 
-	private List<Long> churnList;
+	private final List<Long> churnList;
 
 	private long avgChurn;
 
 	private long maxChurn;
 
-	private List<Integer> changeSet; // list of number of files committed toghether with this one; one per revision
+	private final List<Integer> changeSet; // list of number of files committed toghether with this one; one per revision
 
 	private long maxChSetSize;
 
 	private long avgChSetSize;
 
-	private Map<String, Committer> authors; // <authorName, CommitterInfo> all authors over revision
+	private final Map<String, Committer> authors; // <authorName, CommitterInfo> all authors over revision
 
 	private long age; // age of the file in terms of weeks
 
 	private LocalDate creationDate;
 
-	private LocalDate releaseDate;
+	private final LocalDate releaseDate;
 
-	private ExecutorService es;
+	private final ExecutorService es;
 
 	private static final Logger LOGGER = Logger.getLogger(FileInfo.class.getName());
 
@@ -166,12 +170,12 @@ public class FileInfo {
 		this.maxChSetSize = changeSet.get(changeSet.size() - 1); // update max value
 	}
 
-	/*private void setSize(int tokenIndex) throws IOException, JSONException {
-		JSONObject jsonObject = new JSONObject(DownloaderAgent.readJSONFromGitHub(this.url, tokenIndex));
+	private void setSize(int tokenIndex, String tagSha) throws IOException, JSONException {
+		JSONObject jsonObject = new JSONObject(DownloaderAgent.readJsonFromGitHub(this.url, tokenIndex, "cache/tag/" + tagSha + "/files/info/", this.pathName));
 		String encodedContent = jsonObject.getString("content");
 		byte[] byteArray = Base64.getMimeDecoder().decode(encodedContent);
 		String contentString = new String(byteArray);
-		// don't consider empty lines; compliant with ocuntLines
+		// don't consider empty lines; compliant with countLines
 		long cl = CommentTokenizer.countComments(contentString, false);
 		long sloc = countLines(contentString);
 		if (sloc - cl > 0) {
@@ -182,10 +186,10 @@ public class FileInfo {
 
 	}
 
-	public void populateFileSize(int tokenIndex) {
+	public void populateFileSize(int tokenIndex, String tagSha) {
 		es.execute(() -> {
 			try {
-				setSize(tokenIndex);
+				setSize(tokenIndex, tagSha);
 			} catch (IOException | JSONException e) {
 				LOGGER.log(Level.WARNING, e.getMessage());
 				Thread.currentThread().interrupt();
@@ -204,7 +208,7 @@ public class FileInfo {
 			}
 		}
 		return count;
-	}*/
+	}
 
 	public long getRevisionNum() {
 		return revisionNum;
@@ -228,7 +232,7 @@ public class FileInfo {
 		return maxChurn;
 	}
 
-	public long getAvgCurn() {
+	public long getAvgChurn() {
 		this.avgChurn = 0;
 		if (!this.churnList.isEmpty()) {
 
