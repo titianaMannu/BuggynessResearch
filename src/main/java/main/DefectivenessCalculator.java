@@ -92,10 +92,7 @@ public class DefectivenessCalculator {
 
 	private void initializeIndexMap() {
 		this.indexMap = new HashMap<>();
-		for (int i = 0; i < versions.size(); i++) {
-			VersionInfo v = versions.get(i);
-			indexMap.put(v.getName(), i);
-		}
+		versions.forEach( v -> indexMap.put(v.getName(), versions.indexOf(v)));
 	}
 
 	private int findProportion(int bugIndex) {

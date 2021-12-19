@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -79,7 +80,7 @@ public class CSVBuilder {
 
 	public static void generateDefectivenessCSV(List<VersionInfo> versions) {
 		String labels = "Version,VersionID,Version Name,File Name,buggy";
-		File fout = new File("defectiveness.csv");
+		File fout = new File(JSONConfig.getProjectName().toLowerCase(Locale.ROOT) + "-defectiveness.csv");
 
 		try (FileOutputStream fos = new FileOutputStream(fout);
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos))) {
