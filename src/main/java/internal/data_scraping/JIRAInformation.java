@@ -37,7 +37,7 @@ public class JIRAInformation {
 
 	private List<JIRAContent> jiraTicketPages = new ArrayList<>();
 
-	private List<VersionInfo> versions = new ArrayList<>();
+	private final List<VersionInfo> versions = new ArrayList<>();
 
 	private BugInfo[] bugs;
 
@@ -53,7 +53,7 @@ public class JIRAInformation {
 	}
 
 	private void retrieveTickets() throws IOException {
-		// first of all we need to retrieve the encoded access token from the
+		// first we need to retrieve the encoded access token from the
 		// configuration file
 		String project = JSONConfig.getProjectName();
 		String type = JSONConfig.getIssueType();

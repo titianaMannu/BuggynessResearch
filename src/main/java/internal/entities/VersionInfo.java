@@ -140,7 +140,7 @@ public class VersionInfo {
 		this.releaseDate = CommitsInformation.formatCommitDate(commitContent.getCommitData().getCommitter().getDate());
 
 		String treeUrlString = commitContent.getCommitData().getTree().getUrl(); // link to the tree of this version
-		// call with recursive=0 to explore subfolders recursively
+		// call with recursive=0 to explore folders recursively
 		jsonContent = DownloaderAgent.readJsonFromGitHub(treeUrlString + "?recursive=0", tokenIndex, "cache/tag/" + this.tag.getCommit().getSha() + "/files/",
 				"tag-" + this.tag.getCommit().getSha());
 		JSONObject json = new JSONObject(jsonContent);

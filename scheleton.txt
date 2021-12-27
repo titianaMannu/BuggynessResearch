@@ -1,0 +1,15 @@
+@ATTRIBUTE version numeric
+@ATTRIBUTE size numeric
+@ATTRIBUTE locTouched numeric
+@ATTRIBUTE nRevision numeric
+@ATTRIBUTE nAuthors numeric
+@ATTRIBUTE churn numeric
+@ATTRIBUTE avgChurn numeric
+@ATTRIBUTE maxChurn numeric
+@ATTRIBUTE changeSetSize numeric
+@ATTRIBUTE maxChangeSetSize numeric 
+@ATTRIBUTE avgChangeSetSize numeric 
+@ATTRIBUTE age numeric
+@ATTRIBUTE defective {FALSE,TRUE}
+
+@DATA
