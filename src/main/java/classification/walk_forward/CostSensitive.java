@@ -25,12 +25,12 @@ public class CostSensitive {
         CostSensitiveClassifier costSensitiveCf ;
         switch (sensitivity) {
             case SENSITIVE_LEARNING:
-                costSensitiveCf = getCostSensitiveClassifier(classifier, falsePositiveWeight, falseNegativeWeight, training);
+                costSensitiveCf = getCostSensitiveClassifier(classifier, falsePositiveWeight, falseNegativeWeight);
                 costSensitiveCf.setMinimizeExpectedCost(false);
                 costSensitiveCf.buildClassifier(training);
                 break;
             case SENSITIVE_THRESHOLD:
-                costSensitiveCf = getCostSensitiveClassifier(classifier, falsePositiveWeight, falseNegativeWeight, training);
+                costSensitiveCf = getCostSensitiveClassifier(classifier, falsePositiveWeight, falseNegativeWeight);
                 costSensitiveCf.setMinimizeExpectedCost(true);
                 costSensitiveCf.buildClassifier(training);
                 break;
@@ -40,12 +40,16 @@ public class CostSensitive {
         return costSensitiveCf;
     }
 
-    public static Evaluation getCostSensitiveEvaluation(CostSensitiveClassifier classifier, Instances test) throws Exception {
+    public static Evaluation getCostSensitiveEvaluation(CostSensitiveClassifier classifier, Instances test)  {
         // evaluate model
-        return new Evaluation(test, classifier.getCostMatrix());
+        try {
+            return new Evaluation(test, classifier.getCostMatrix());
+        } catch (Exception e) {
+           return null;
+        }
     }
 
-    private static CostSensitiveClassifier getCostSensitiveClassifier(Classifier classifier, double falsePositiveWeight, double falseNegativeWeight, Instances training) throws Exception {
+    private static CostSensitiveClassifier getCostSensitiveClassifier(Classifier classifier, double falsePositiveWeight, double falseNegativeWeight)  {
         CostSensitiveClassifier costSensitiveCf = new CostSensitiveClassifier();
         costSensitiveCf.setClassifier(classifier);
         costSensitiveCf.setCostMatrix(createCostMatrix(falsePositiveWeight, falseNegativeWeight));
