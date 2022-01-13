@@ -15,6 +15,7 @@ import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import classification.walk_forward.EntrySet;
+import internal.utils.JSONConfig;
 
 public class CSVUtils {
 	
@@ -108,20 +109,21 @@ public class CSVUtils {
 	}
 	
 	public static void generateCsv(List<EntrySet> data) {
+		String projectName = JSONConfig.getProjectName();
 		String header = "dataset;#TrainingRelease;%Defective in training;%Defective in testing;"
-				+ "classifier;balancing;Feature Selection;cost;TP;FP;TN;FN;Precision;Recall;ROC Area;Kappa";
-		File fout = new File("data.csv");
+				+ "classifier;balancing;Feature Selection;cost;TP;FP;TN;FN;Precision;Recall;FMeasure;ROC Area;Kappa";
+		File fout = new File(projectName + "-walkForward.csv");
 
 		try (FileOutputStream fos = new FileOutputStream(fout);
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos))) {
 			bw.write(header);
 			bw.newLine();
 			for (EntrySet entry : data) {
-				String str= String.format("%s;%d;%.2f;%.2f;%s;%s;%s;%s;%.4f;%.4f;%.4f;%.4f;%.4f;%.4f;%.4f;%.4f",
+				String str= String.format("%s;%d;%.2f;%.2f;%s;%s;%s;%s;%.4f;%.4f;%.4f;%.4f;%.4f;%.4f;%.4f;%.4f;%.4f",
 						entry.getDataSet(),
 						entry.getNumTrainingRelease(),
-						entry.getPercDefectiveInTraining() * 100,
-						entry.getPercDefectiveInTesting() * 100,
+						entry.getPercentageDefectiveInTraining() * 100,
+						entry.getPercentageDefectiveInTesting() * 100,
 						entry.getClassifierType().name(),
 						entry.getSampling().name(),
 						entry.getUsingFeatureSelection().name(),
@@ -132,6 +134,7 @@ public class CSVUtils {
 						entry.getFn(),
 						entry.getPrecision(),
 						entry.getRecall(),
+						entry.getfMeasure(),
 						entry.getAuc(),
 						entry.getKappa());
 				
@@ -139,7 +142,6 @@ public class CSVUtils {
 				bw.newLine();
 
 			}
-
 		} catch (Exception e) {
 			Logger.getGlobal().info(e.toString());
 		}

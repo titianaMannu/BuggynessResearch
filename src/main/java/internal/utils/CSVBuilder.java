@@ -21,31 +21,6 @@ public class CSVBuilder {
 		super();
 	}
 
-	/*
-	 * This method generates a csv file containing for each month of project
-	 * development the corresponding commits of the searched type
-	 */
-	public static void generateCommitCsv(Map<String, Integer> countCommit) {
-		String header = "Date,No. Commits";
-		File fout = new File("data.csv");
-
-		try (FileOutputStream fos = new FileOutputStream(fout);
-				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos))) {
-			bw.write(header);
-			bw.newLine();
-			for (Map.Entry<String, Integer> entry : countCommit.entrySet()) {
-				String key = entry.getKey();
-				Integer value = entry.getValue();
-				bw.write(key + "," + value.toString());
-				bw.newLine();
-
-			}
-
-		} catch (Exception e) {
-			Logger.getGlobal().info(e.toString());
-		}
-	}
-
 	public static void generateVersionsCSV(List<VersionInfo> versions) {
 		String labels = "Version,Version Name,File Name,size,LOC Touched,NR,Atuthors Number,Churn,AVG Churn,MAX Churn,ChangeSetSize,MAX ChangeSetSize,AVG ChangeSetSize,Age,Defective";
 		File fout = new File(JSONConfig.getProjectName() + "_metrics.csv");

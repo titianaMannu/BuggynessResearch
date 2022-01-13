@@ -2,6 +2,7 @@ package classification.walk_forward;
 
 import classification.enumerations.Classificator;
 import classification.enumerations.Sampling;
+import org.apache.commons.math3.util.Precision;
 import scala.Tuple2;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
@@ -65,9 +66,8 @@ public class Balancing {
         fc.setClassifier(cl);
         Resample resample = new Resample();
         resample.setInputFormat(training);
-        long optFactor = findSamplingPercentage(training)._2;
         // oversampling options
-        String[] opts = new String[]{"-B", "1.0","-S","1", "-Z", String.valueOf(optFactor)};
+        String[] opts = new String[]{"-B", "1.0","-S","1", "-Z", findSamplingPercentage(training)._2.toString()};
         resample.setOptions(opts);
 
         fc.setFilter(resample);
@@ -122,10 +122,10 @@ public class Balancing {
         return fc;
     }
 
-    private static Tuple2<Long, Long> findSamplingPercentage(Instances training) {
+    private static Tuple2<Double, Double> findSamplingPercentage(Instances training) {
 
-        int falseClasses = 0;
-        int trueClasses = 0;
+        double falseClasses = 0;
+        double trueClasses = 0;
         for (Instance instance : training) {
             if (instance.toString(training.numAttributes() - 1).equals("FALSE")) {
                 falseClasses++;
@@ -133,15 +133,18 @@ public class Balancing {
                 trueClasses++;
             }
         }
-        long sampleSizePercent = 0;
-        long smotePercentage = 0;
+        double sampleSizePercent = 0;
+        double smotePercentage = 0;
         if (trueClasses + falseClasses > 0) {
             if (falseClasses > trueClasses) {
                 // usually defective classes are a majority
                 if (trueClasses > 0) {
                     smotePercentage = 100L * ((falseClasses - trueClasses) / trueClasses);
+                    smotePercentage = Precision.round(smotePercentage, 7);
                 }
-                sampleSizePercent = (200L * falseClasses) / (trueClasses + falseClasses);
+                sampleSizePercent = 200L * (( falseClasses) / (trueClasses + falseClasses));
+                sampleSizePercent = Precision.round(sampleSizePercent, 7);
+
             } else {
                 if (falseClasses > 0) {
                     smotePercentage = 100L * ((trueClasses - falseClasses) / falseClasses);

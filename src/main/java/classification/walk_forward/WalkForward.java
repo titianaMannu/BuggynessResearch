@@ -20,6 +20,7 @@ import classification.enumerations.Classificator;
 import classification.enumerations.Cost;
 import classification.enumerations.FeatureSelector;
 import classification.enumerations.Sampling;
+import internal.utils.JSONConfig;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.meta.CostSensitiveClassifier;
@@ -143,7 +144,8 @@ public class WalkForward {
     }
 
     public static void main(String[] args) throws Exception {
-        WalkForward walk = new WalkForward("OPENJPA_metrics.csv", "OPENJPA");
+        String projectName = JSONConfig.getProjectName();
+        WalkForward walk = new WalkForward(projectName + "_metrics.csv", projectName);
         walk.generateData();
         CSVUtils.generateCsv(walk.getData());
     }

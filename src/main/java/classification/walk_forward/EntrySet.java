@@ -14,40 +14,42 @@ public class EntrySet {
 	 
 	private int numTrainingRelease;
 	
-	private double percDefectiveInTraining;
+	private final double percentageDefectiveInTraining;
 	
-	private double percDefectiveInTesting;
+	private final double percentageDefectiveInTesting;
 	
-	private Classificator classifierType;
+	private final Classificator classifierType;
 	
-	private Sampling sampling;
+	private final Sampling sampling;
 	
-	private FeatureSelector usingFeatureSelection;
+	private final FeatureSelector usingFeatureSelection;
 
-	private Cost sensitivity;
+	private final Cost sensitivity;
 	
-	private double tp;
+	private final double tp;
 	
-	private double fp;
+	private final double fp;
 	
-	private double tn;
+	private final double tn;
 	
-	private double fn;
+	private final double fn;
 	
-	private double precision;
+	private final double precision;
 	
-	private double recall;
+	private final double recall;
 	
-	private double auc;
+	private final double auc;
 	
-	private double kappa;
+	private final double kappa;
+
+	private final double fMeasure;
 
 	public EntrySet(Evaluation eval, FeatureSelector selection, Classificator classificator, Sampling sampling, Cost sensitivity, Instances trainingSet, Instances testSet) {
 		this.classifierType = classificator;
 		this.sampling = sampling;
 		this.usingFeatureSelection = selection;
-		this.percDefectiveInTraining = calculatePerc(trainingSet);
-		this.percDefectiveInTesting = calculatePerc(testSet);
+		this.percentageDefectiveInTraining = calculatePerc(trainingSet);
+		this.percentageDefectiveInTesting = calculatePerc(testSet);
 		this.sensitivity = sensitivity;
 		this.tp = eval.numTruePositives(1);
 		this.fp = eval.numFalsePositives(1);
@@ -58,6 +60,7 @@ public class EntrySet {
 		this.precision = eval.precision(1);
 		this.kappa = eval.kappa();
 		this.recall = eval.recall(1);
+		this.fMeasure = eval.fMeasure(1);
 		
 		
 	}
@@ -108,12 +111,12 @@ public class EntrySet {
 		this.numTrainingRelease = numTrainingRelease;
 	}
 
-	public double getPercDefectiveInTraining() {
-		return percDefectiveInTraining;
+	public double getPercentageDefectiveInTraining() {
+		return percentageDefectiveInTraining;
 	}
 
-	public double getPercDefectiveInTesting() {
-		return percDefectiveInTesting;
+	public double getPercentageDefectiveInTesting() {
+		return percentageDefectiveInTesting;
 	}
 
 	public Classificator getClassifierType() {
@@ -156,7 +159,8 @@ public class EntrySet {
 	public double getKappa() {
 		return kappa;
 	}
-	
-	
-	
+
+	public double getfMeasure() {
+		return fMeasure;
+	}
 }

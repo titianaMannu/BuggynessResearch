@@ -156,7 +156,9 @@ public class VersionInfo {
 		for (int i = 0; i < files.length(); i++) {
 			currObj = files.getJSONObject(i);
 			if (currObj.get("type").equals("blob") // consider only java class
-					&& FilenameUtils.getExtension(currObj.getString("path")).equals("java")) {
+					&& FilenameUtils.getExtension(currObj.getString("path")).equals("java") &&
+				!currObj.getString("path").contains("test")
+			) {
 				FileInfo fileInfo = new FileInfo(currObj.getString("path"), currObj.getString("url"), eService,
 						releaseDate, this.name);
 				filesMap.put(fileInfo.getPathName(), fileInfo);
