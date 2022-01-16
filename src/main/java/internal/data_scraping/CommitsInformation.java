@@ -48,7 +48,7 @@ public class CommitsInformation {
         try {
             reString = DownloaderAgent.readJsonFromGitHub(url, tokenIndex, cachePath, url);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "Got an exception:", e);
         }
 
         fillJsonList(reString, j, list);
@@ -184,7 +184,7 @@ public class CommitsInformation {
                     try {
                         fillSelfCommitList(getFullCommit(url, sha), j, fullCommits);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LOGGER.log(Level.WARNING, "Got an exception::", e);
                     }
                 }
             });

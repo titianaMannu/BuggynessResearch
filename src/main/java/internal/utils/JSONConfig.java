@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +27,7 @@ public class JSONConfig {
 
 	private static final Integer MIN_TOKEN = 0;
 
-	private static final Random random = new Random();
+	private static final Random random = new SecureRandom();
 
 	/**
 	 * retrieve configuration's parameters from a JSON file
