@@ -1,6 +1,7 @@
 package main;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import internal.entities.commits_entities.*;
 import org.json.JSONException;
 
 import internal.utils.CSVBuilder;
@@ -20,9 +22,6 @@ import internal.data_scraping.JIRAInformation;
 import internal.entities.BugInfo;
 import internal.entities.FileInfo;
 import internal.entities.VersionInfo;
-import internal.entities.commits_entities.CommitInfo;
-import internal.entities.commits_entities.File;
-import internal.entities.commits_entities.SelfCommit;
 
 public class DefectivenessCalculator {
 
@@ -46,7 +45,7 @@ public class DefectivenessCalculator {
 	 */
 	public DefectivenessCalculator() throws IOException, InterruptedException {
 		super();
-		TicketLinker.getInstance().ticketLink(); // linkage tra commit per ticket e so anche qual è l'ultima data
+		TicketLinker.getInstance().ticketLink(); // linkage commit-ticket
 		commitsPerTicketMap = TicketLinker.getInstance().getCommitsPerTicketMap();
 
 		VersionLinker versionLinker = VersionLinker.getInstance();
@@ -66,10 +65,15 @@ public class DefectivenessCalculator {
 			bug.retrieveAVIndex(indexMap);
 			bug.retrieveFVIndex(indexMap);
 			// consistency check
-			if (!bug.isConsistent()) {
-				// we don't have any fixed version
-				bugs.remove(i);
-				continue;
+			if (bug.getFvIndexList().isEmpty()){
+				//we don't have any fixed version
+				int v = findFixedVersion(bug);
+				if ( v > 0){
+					bug.getFvIndexList().add(v);
+				}
+			}
+			if (!bug.isConsistent() ) {
+				bug.getAvIndexList().clear();
 			}
 			bug.setOpeningVersion(versions);
 			final int j = i;
@@ -82,6 +86,18 @@ public class DefectivenessCalculator {
 			LOGGER.log(Level.WARNING, TIMEOUT_MSG);
 		}
 
+	}
+
+	private Integer findFixedVersion(BugInfo bug) throws InterruptedException {
+		Map<String, LocalDate> ticketMap = TicketLinker.getInstance().getTicketMap();
+		LocalDate lastCommitDate = ticketMap.get(bug.getKey());
+		if (lastCommitDate.equals(LocalDate.MIN)) return -1;
+		for (VersionInfo v : this.versions){
+			if (v.getReleaseDate().isAfter(lastCommitDate)){
+				return this.indexMap.get(v.getName());
+			}
+		}
+		return -1;
 	}
 
 	private void getCommitFullInfo(BugInfo bug){
