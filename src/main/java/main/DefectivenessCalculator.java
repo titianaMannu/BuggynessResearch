@@ -70,6 +70,9 @@ public class DefectivenessCalculator {
 				int v = findFixedVersion(bug);
 				if ( v > 0){
 					bug.getFvIndexList().add(v);
+				}else{
+					bugs.remove(i);
+					continue;
 				}
 			}
 			if (!bug.isConsistent() ) {
