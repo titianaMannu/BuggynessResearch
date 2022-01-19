@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import classification.arff.ArffBuilder;
-import classification.arff.CSVUtils;
-import classification.arff.FileBean;
+import classification.utils.ArffBuilder;
+import classification.utils.CSVUtils;
+import classification.utils.FileBean;
 import classification.enumerations.Classificator;
 import classification.enumerations.Cost;
 import classification.enumerations.FeatureSelector;

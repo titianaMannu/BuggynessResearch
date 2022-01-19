@@ -105,8 +105,7 @@ public class JIRAInformation {
 		if (this.versions.isEmpty()) {
 			buildVersions();
 		}
-		// serve per ordinare le versioni in modo crescente
-
+		//order versions in ascendant date order
 		return sortVersions(this.versions);
 	}
 

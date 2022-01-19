@@ -23,12 +23,12 @@ import java.util.logging.Logger;
  */
 public class TicketLinker {
     private static final Logger LOGGER = Logger.getLogger(TicketLinker.class.getName());
-    //ticket-key, last commit-date related to it
+    /** ticket-key, last commit-date related to it*/
     private final Map<String, LocalDate> ticketMap;
-
+    /**ticket-key, list of all commits whose comment contains the ticket-key*/
     private final Map<String, List<CommitInfo>> commitsPerTicketMap;
 
-    //list of all commits in descendent order; most recent is the first one
+    /**list of all commits in descendent date order; most recent is the first one*/
     private final CommitInfo[] infos;
 
     private static TicketLinker instance = null;

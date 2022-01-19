@@ -122,6 +122,11 @@ public class Balancing {
         return fc;
     }
 
+    /**
+     * This method is used to compute the correct sampling percentage for smote and oversampling
+     * @param training training instances
+     * @return tuple containing the options
+     */
     private static Tuple2<Double, Double> findSamplingPercentage(Instances training) {
 
         double falseClasses = 0;

@@ -12,9 +12,9 @@ import internal.entities.jira_entities.bugs.Version;
 
 public class BugInfo {
 
-	private String key;
+	private final String key;
 
-	private List<Version> affectedVersios;
+	private List<Version> affectedVersions;
 
 	private List<Integer> avIndexList;
 
@@ -26,24 +26,24 @@ public class BugInfo {
 
 	private List<SelfCommit> commits;
 
-	private LocalDate resolutionDate; // ordiniamo i bug in modo crescente in base alla resolution date
+	/** order by increasing resolution date order */
+	private LocalDate resolutionDate;
 
-	// serve per identificare tra le versioni quella con release date subioto
-	// dopo la creation date : la opening version
+	/** we need this information in order to identify the correct opening version*/
 	private LocalDate creationDate;
 
 	/**
-	 * @param key
-	 * @param affectedVersios
-	 * @param fixedVersions
-	 * @param resolutionDate
-	 * @param creationDate
+	 * @param key ticket key
+	 * @param affectedVersions affected versions list
+	 * @param fixedVersions fixed versions list
+	 * @param resolutionDate ticket resolution date
+	 * @param creationDate ticket creation date
 	 */
-	public BugInfo(String key, List<Version> affectedVersios, List<FixVersion> fixedVersions, LocalDate resolutionDate,
-			LocalDate creationDate) {
+	public BugInfo(String key, List<Version> affectedVersions, List<FixVersion> fixedVersions, LocalDate resolutionDate,
+				   LocalDate creationDate) {
 		super();
 		this.key = key;
-		this.affectedVersios = affectedVersios;
+		this.affectedVersions = affectedVersions;
 		this.fixedVersions = fixedVersions;
 		this.resolutionDate = resolutionDate;
 		this.creationDate = creationDate;
@@ -64,8 +64,8 @@ public class BugInfo {
 		return key;
 	}
 
-	public List<Version> getAffectedVersios() {
-		return affectedVersios;
+	public List<Version> getAffectedVersions() {
+		return affectedVersions;
 	}
 
 	public List<FixVersion> getFixedVersions() {
@@ -88,6 +88,10 @@ public class BugInfo {
 		return creationDate;
 	}
 
+	/**
+	 * Compute Injected version by using proportion method
+	 * @param proportion proportion value
+	 */
 	public void predictedIV(int proportion) {
 		if (fvIndexList.isEmpty())
 			return;
@@ -128,7 +132,7 @@ public class BugInfo {
 
 	public void retrieveAVIndex(Map<String, Integer> indexMap) {
 		avIndexList.clear();
-		for (Version version : affectedVersios) {
+		for (Version version : affectedVersions) {
 			Integer index = indexMap.get(version.getVname());
 			if (index != null) {
 				avIndexList.add(index);
@@ -176,7 +180,7 @@ public class BugInfo {
 			if (!getAvIndexList().isEmpty()
 					&& getAvIndexList().get(getAvIndexList().size() - 1) > getFvIndexList().get(0)) {
 				// the last affected version is after the first fixed version
-				this.affectedVersios.clear();
+				this.affectedVersions.clear();
 				this.avIndexList.clear();
 				// non-consistent AVList; need to calculate with proportion
 			}

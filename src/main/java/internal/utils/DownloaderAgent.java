@@ -33,6 +33,17 @@ public class DownloaderAgent {
         path = JSONConfig.getProjectName().toLowerCase(Locale.ROOT) + "-" + path;
         return path;
     }
+
+
+    /**
+     * This method is useful to download pages from GitHub by using REST API
+     * @param page url to download
+     * @param tokenIndex token to use
+     * @param cachePath check if the file is already in cache before downloading it
+     * @param filename filename used to save information into the cache
+     * @return page content
+     * @throws IOException
+     */
     public static String readJsonFromGitHub(String page, int tokenIndex, String cachePath, String filename) throws IOException {
         cachePath = addProjectToCachePath(cachePath);
         if (!Files.exists(Paths.get(cachePath))) {
@@ -91,7 +102,14 @@ public class DownloaderAgent {
 
     }
 
-
+    /**
+     * This method is useful to download pages from Jira by using REST API
+     * @param url url to download
+     * @param path check if the file is already in cache before downloading it
+     * @param filename filename used to save information into the cache
+     * @return page content
+     * @throws IOException
+     */
     public static String readJsonFromJira(String url, String path, String filename) throws IOException {
         path = JSONConfig.getProjectName().toLowerCase(Locale.ROOT) + "-" + path;
         if (!Files.exists(Paths.get(path))) {

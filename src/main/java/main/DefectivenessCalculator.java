@@ -91,6 +91,12 @@ public class DefectivenessCalculator {
 
 	}
 
+	/**
+	 *
+	 * @param bug bug without a fixed version in Jira
+	 * @return corresponding fixed version, if any
+	 * @throws InterruptedException
+	 */
 	private Integer findFixedVersion(BugInfo bug) throws InterruptedException {
 		Map<String, LocalDate> ticketMap = TicketLinker.getInstance().getTicketMap();
 		LocalDate lastCommitDate = ticketMap.get(bug.getKey());
@@ -114,6 +120,11 @@ public class DefectivenessCalculator {
 		versions.forEach( v -> indexMap.put(v.getName(), versions.indexOf(v)));
 	}
 
+	/**
+	 * Proportion implementation with moving window and sliding interval of 1%
+	 * @param bugIndex the index of a bug
+	 * @return proportion value
+	 */
 	private int findProportion(int bugIndex) {
 		int perc = (int) Math.floor(0.01 * bugIndex);
 		int sum = 0;

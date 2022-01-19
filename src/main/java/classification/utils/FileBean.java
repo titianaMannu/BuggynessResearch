@@ -1,4 +1,4 @@
-package classification.arff;
+package classification.utils;
 
 public class FileBean {
 	

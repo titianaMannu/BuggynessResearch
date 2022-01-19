@@ -1,4 +1,4 @@
-package classification.arff;
+package classification.utils;
 
 import java.io.BufferedReader;
 import java.io.File;

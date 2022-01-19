@@ -87,6 +87,11 @@ public class MetricsCalculator {
         dCalculator.findDefectiveness();
     }
 
+    /**
+     * If a file is renamed it takes the age and the number of authors corresponding to the old filename
+     * @param prevVersion previous version
+     * @param currVersion current version
+     */
     private void updateReleaseCumulative(VersionInfo prevVersion, VersionInfo currVersion) {
         for (Map.Entry<String, FileInfo> entry : currVersion.getFilesMap().entrySet()) {
             FileInfo olderFileInfo = prevVersion.getFilesMap().get(entry.getKey());

@@ -36,7 +36,7 @@ public class CommitsInformation {
     }
 
     /**
-     *
+     * private constructor
      */
     private CommitsInformation() {
         super();
@@ -55,6 +55,13 @@ public class CommitsInformation {
 
     }
 
+    /**
+     * MultiThread download of information from GitHub using REST API
+     *
+     * @param queryString Complete the query
+     * @return list of commits
+     * @throws InterruptedException
+     */
     public CommitInfo[] retrieveCommits(String queryString) throws InterruptedException {
         /* Get project name */
         int requestPerThread = 10;
@@ -118,6 +125,11 @@ public class CommitsInformation {
     }
 
 
+    /**
+     * Sort all commits in ascendant date order
+     *
+     * @param infos list of commits
+     */
     private void sortCommitInfos(List<CommitInfo> infos) {
 
         Collections.sort(infos, (CommitInfo c1, CommitInfo c2) -> {
@@ -226,6 +238,14 @@ public class CommitsInformation {
         });
     }
 
+    /**
+     * get commits between two releases
+     * @param prevRev previous release
+     * @param currRev current release
+     * @param tokenIndex oauth token index
+     * @return all commits corresponding to the current release
+     * @throws IOException
+     */
     public CommitInfo[] compare(String prevRev, String currRev, int tokenIndex) throws IOException {
         String url = JSONConfig.getRepository() + JSONConfig.getProjectName() + "/compare/" + prevRev + "..." + currRev;
         //get all commit for the current release (after the previous one)
