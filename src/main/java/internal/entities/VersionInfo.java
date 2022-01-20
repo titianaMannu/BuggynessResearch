@@ -155,7 +155,7 @@ public class VersionInfo {
 					&& FilenameUtils.getExtension(currObj.getString("path")).equals("java") &&
 				!currObj.getString("path").contains("test")
 			) {
-				FileInfo fileInfo = new FileInfo(currObj.getString("path"), currObj.getString("url"), eService,
+				FileInfo fileInfo = new FileInfo(currObj.getString("path"), currObj.getString("url"),
 						releaseDate, this.name);
 				filesMap.put(fileInfo.getPathName(), fileInfo);
 			}

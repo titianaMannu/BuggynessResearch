@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b94a2879-fd6b-4a9e-9e6b-8768e7ba2806" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/init.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bin/init.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/internal/entities/FileInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/internal/entities/FileInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/internal/entities/VersionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/internal/entities/VersionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/internal/entities/commits_entities/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/internal/entities/commits_entities/File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/internal/utils/CommentTokenizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/internal/utils/CommentTokenizer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +141,7 @@
       <workItem from="1642359586569" duration="335000" />
       <workItem from="1642587112536" duration="1396000" />
       <workItem from="1642681145089" duration="22372000" />
-      <workItem from="1642706862869" duration="1431000" />
+      <workItem from="1642706862869" duration="1833000" />
     </task>
     <task id="LOCAL-00001" summary="first-commit smell prone">
       <created>1639732666388</created>
@@ -247,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642707331375</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="minor changes;">
+      <created>1642713506628</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1642713506628</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,9 +307,9 @@
     <MESSAGE value="ml part integrated;" />
     <MESSAGE value="smell fixed;" />
     <MESSAGE value="smote and oversampling percentage option fixed;" />
-    <MESSAGE value="minor changes;" />
     <MESSAGE value="executable added;" />
-    <option name="LAST_COMMIT_MESSAGE" value="executable added;" />
+    <MESSAGE value="minor changes;" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

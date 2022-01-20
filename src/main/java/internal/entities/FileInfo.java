@@ -6,7 +6,6 @@ import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,21 +58,18 @@ public class FileInfo {
 
 	private final LocalDate releaseDate;
 
-	private final ExecutorService es;
-
 	private static final Logger LOGGER = Logger.getLogger(FileInfo.class.getName());
 
 	/**
 	 * @param pathName
 	 * @param url
 	 */
-	public FileInfo(String pathName, String url, ExecutorService es, LocalDate releDate, String versionIndx) {
+	public FileInfo(String pathName, String url, LocalDate releDate, String versionIndx) {
 		super();
 		this.churnList = new ArrayList<>();
 		this.versionIndx = versionIndx;
 		this.pathName = pathName;
 		this.url = url;
-		this.es = es;
 		this.avgChurn = 0;
 		this.defective = false;
 		this.lOCTouched = 0;
@@ -176,7 +172,7 @@ public class FileInfo {
 		byte[] byteArray = Base64.getMimeDecoder().decode(encodedContent);
 		String contentString = new String(byteArray);
 		// don't consider empty lines; compliant with countLines
-		long cl = CommentTokenizer.countComments(contentString, false);
+		long cl = CommentTokenizer.countComments(contentString);
 		long sloc = countLines(contentString);
 		if (sloc - cl > 0) {
 			this.size = sloc - cl; // LOC = SLOC - CL

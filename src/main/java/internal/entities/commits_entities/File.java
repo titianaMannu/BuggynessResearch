@@ -75,8 +75,8 @@ public class File implements Serializable {
 
 			}
 		}
-		addedC = CommentTokenizer.countComments(addedLines, true);
-		deletedC = CommentTokenizer.countComments(deletedLines, true);
+		addedC = CommentTokenizer.countComments(addedLines);
+		deletedC = CommentTokenizer.countComments(deletedLines);
 		decrementAdditions(addedC);
 		decrementDeletions(deletedC);
 		decrementChanges(addedC + deletedC);

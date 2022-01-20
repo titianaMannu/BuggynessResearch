@@ -51,7 +51,7 @@ public class CommentTokenizer {
 		}
 	}
 
-	public static int countComments(String str, boolean includeEmptyLines) throws IOException {
+	public static int countComments(String str) throws IOException {
 		int count = 0;
 		String line = "";
 		Reader inputString = new StringReader(str);
