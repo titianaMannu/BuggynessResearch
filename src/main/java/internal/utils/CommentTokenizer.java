@@ -57,7 +57,7 @@ public class CommentTokenizer {
 		Reader inputString = new StringReader(str);
 		BufferedReader br = new BufferedReader(inputString);
 		while ((line = br.readLine()) != null) {
-			count = analyzeLine(line, br, count, includeEmptyLines);
+			count += analyzeLine(line, br);
 		}
 		br.close();
 		return count;
@@ -69,34 +69,22 @@ public class CommentTokenizer {
 	 * 
 	 * @param line
 	 * @param br
-	 * @param count
 	 * @return
 	 * @throws IOException
 	 */
-	private static int analyzeLine(String line, BufferedReader br, int count, boolean includeEmptyLines)
+	private static int analyzeLine(String line, BufferedReader br)
 			throws IOException {
-		try {
-			line = line.replace("\t", "").replace(" ", "");
-			if (line.startsWith("//")) { // simple comments
+			int count = 0;
+			if (line.startsWith("//")) {
 				count++;
-			} else if (line.startsWith("/*")) { /* block of comments */
-				count++;
-				while (!line.contains("*/") && !(line = br.readLine()).contains("*/")) {
+			} else if (line.contains("/*") ) {
+				if (line.startsWith("/*")) count++;
+				while (line != null && !line.contains("*/") ) {
 					count++;
+					line = br.readLine();
 				}
-				line = line.replace("\t", "");
-				if (line.endsWith("*/") && !line.startsWith("/*")) {
-					count++;
-				}
-			} else if (line.startsWith("*")) { /* partial*block*of*comments */
-				count++;
-			} else if (line.isBlank() && includeEmptyLines) { // empty lines
-				count++;
 			}
-		} catch (NullPointerException e) {
-			return count;
-		}
 		return count;
-	}
 
+	}
 }

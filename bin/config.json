@@ -1,0 +1,11 @@
+{
+	"project" : "OPENJPA",
+	"issue" : "Bug",
+
+	"encodedToken_0" : "Z2hwX3hSeEFLc1ROQXNHZjJ0VW9qa3lpZFVmOG4wZkhMZzJTd0tDNQo=",
+	"encodedToken_1" : "Z2hwXzZNVTFYUWcwVjFER3h5Rlo2b3ZyN1J0UXcwdTBaWTBHYXFQVwo=",
+	"encodedToken_2" : "Z2hwX05Lekp4cmNBczFsa0t2dzlyM0toQXRBZWRLc2JVczJRY3BpWAo=",
+
+	"repository" : "https://api.github.com/repos/apache/",
+	"jira_api" : "https://issues.apache.org/jira/rest/api/2/"
+}

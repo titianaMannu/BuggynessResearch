@@ -49,15 +49,11 @@ public class VersionInfo {
 		super();
 		this.filesMap = new HashMap<>();
 		this.eService = Executors.newCachedThreadPool();
-
+		this.prevTag = null;
 	}
 
 	public Map<String, FileInfo> getFilesMap() {
 		return filesMap;
-	}
-
-	public void setFilesMap(Map<String, FileInfo> filesMap) {
-		this.filesMap = filesMap;
 	}
 
 	public LocalDate getReleaseDate() {
@@ -171,12 +167,12 @@ public class VersionInfo {
 		int tokenIndex;
 		for (Map.Entry<String, FileInfo> entry : filesMap.entrySet()) {
 			tokenIndex = JSONConfig.getPseudoRandomIndex();
-			if (entry.getValue().getRevisionNum() == 0 || entry.getValue().getlOCTouched() == 0) {
+			if (entry.getValue().getRevisionNum() == 0 ) {
 				// we are not interested in files without changes in this release
 				continue;
 			}
 			final int currTokenIndex = tokenIndex;
-			entry.getValue().populateFileSize(currTokenIndex, this.tag.getCommit().getSha());
+			eService.execute(()->entry.getValue().populateFileSize(currTokenIndex, this.tag.getCommit().getSha()));
 		}
 
 		eService.shutdown();

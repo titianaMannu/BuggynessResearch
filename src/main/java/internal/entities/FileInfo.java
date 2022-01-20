@@ -181,20 +181,17 @@ public class FileInfo {
 		if (sloc - cl > 0) {
 			this.size = sloc - cl; // LOC = SLOC - CL
 		} else {
-			this.size = 0;
+			this.size = sloc;
 		}
 
 	}
 
 	public void populateFileSize(int tokenIndex, String tagSha) {
-		es.execute(() -> {
 			try {
 				setSize(tokenIndex, tagSha);
 			} catch (IOException | JSONException e) {
 				LOGGER.log(Level.WARNING, e.getMessage());
-				Thread.currentThread().interrupt();
 			}
-		});
 	}
 
 	public static int countLines(String str) throws IOException {

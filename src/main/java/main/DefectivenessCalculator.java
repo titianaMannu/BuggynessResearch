@@ -85,7 +85,7 @@ public class DefectivenessCalculator {
 		}
 
 		eService.shutdown();
-		if (!eService.awaitTermination(3, TimeUnit.MINUTES)) {
+		if (!eService.awaitTermination(10, TimeUnit.MINUTES)) {
 			LOGGER.log(Level.WARNING, TIMEOUT_MSG);
 		}
 

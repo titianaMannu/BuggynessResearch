@@ -39,9 +39,10 @@ public class MetricsCalculator {
 
     public void buildDataSet() throws InterruptedException, IOException {
         ExecutorService es = Executors.newCachedThreadPool();
+        findDefectiveness();
         //consider only first half to reduce class with snoring defects
         for (int i = 0; i <= versions.size() / 2; i++) {
-            VersionInfo version = VersionLinker.getInstance().getJiraVersions().get(i);
+            VersionInfo version = versions.get(i);
             final int j = i;
 
             version.getCommitsUnderRelease();
@@ -64,8 +65,10 @@ public class MetricsCalculator {
         if (!finished) {
             LOGGER.log(Level.WARNING, TIMEOUT_MSG);
         }
+        for (int i=1;  i <= versions.size() / 2; i++){
+            updateReleaseCumulative(versions.get(i-1), versions.get(i));
+        }
 
-        findDefectiveness();
         CSVBuilder.generateVersionsCSV(versions);
     }
 
@@ -119,7 +122,7 @@ public class MetricsCalculator {
                 if (f.getStatus().equals("renamed")) {
                     file.setRenamed(true);
                     file.setOldName(f.getPreviousFilename());
-                } else if (f.getStatus().equals("added")) {
+                } else if (f.getStatus().equals("added") || file.getCreationDate()==LocalDate.MIN) {
                     CommitsInformation.getInstance();
                     LocalDate creationDate = CommitsInformation
                             .formatCommitDate(commit.getCommitData().getCommitter().getDate());
