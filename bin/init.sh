@@ -3,11 +3,13 @@
 
 PS3='Please enter your choice: '
 options=("Metrics Calculator" "Walk Forward" "Quit")
+
+echo "processing cache..."
+tar -xf ../openjpa-cache.tar.xz -C ../
+tar -xf ../bookkeeper-cache.tar.xz -C ../
 echo "1 : Use Metrics Calculator - milestone 1 of deliverable2"
 echo "2 : Use Walk Forward - milestone 2 of deliverable2"
 echo "3 : Quit"
-tar -xf ../openjpa-cache.tar.xz -C ../
-tar -xf ../bookkeeper-cache.tar.xz -C ../
 select opt in "${options[@]}"
 do
     case $opt in
