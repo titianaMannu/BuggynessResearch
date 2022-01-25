@@ -70,13 +70,11 @@ public class DefectivenessCalculator {
 				int v = findFixedVersion(bug);
 				if ( v > 0){
 					bug.getFvIndexList().add(v);
-				}else{
-					bugs.remove(i);
-					continue;
 				}
 			}
 			if (!bug.isConsistent() ) {
-				bug.getAvIndexList().clear();
+				bugs.remove(i);
+				continue;
 			}
 			bug.setOpeningVersion(versions);
 			final int j = i;
@@ -92,7 +90,7 @@ public class DefectivenessCalculator {
 	}
 
 	/**
-	 *
+	 * Find fix version : select the first version  after the last fix-commit date
 	 * @param bug bug without a fixed version in Jira
 	 * @return corresponding fixed version, if any
 	 * @throws InterruptedException
