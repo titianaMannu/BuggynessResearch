@@ -20,11 +20,11 @@ do
         "Walk Forward")
             if [ !  -f "../BOOKKEEPER_metrics.csv" ]
               then
-                cp ../resources/BOOKKEEPER_metrics.csv ../
+                cp ../src/main/resources/BOOKKEEPER_metrics.csv ../
               fi
              if [ ! -f "../OPENJPA_metrics.csv" ]
               then
-                cp ../resources/OPENJPA_metrics.csv ../
+                cp ../src/main/resources/OPENJPA_metrics.csv ../
              fi
             cd ../ && java -cp BuggynessResearch-1.0-SNAPSHOT-jar-with-dependencies.jar classification.walk_forward.WalkForward
             cd bin/
